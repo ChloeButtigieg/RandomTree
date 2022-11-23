@@ -100,4 +100,14 @@ public class UndirectedGraph {
 		return order;
 	}
 
+	public int getEdgeCardinality() { return edgeCardinality;}
+
+	public Edge getEdge(final int vertex1, final int vertex2) {
+		for (Edge edge : edges()) {
+			if ((edge.vertex1() == vertex1 && edge.vertex2() == vertex2) || edge.vertex1() == vertex2 && edge.vertex2() == vertex1)
+				return edge;
+		}
+		return null;
+	}
+
 }

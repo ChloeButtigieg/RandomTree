@@ -8,11 +8,13 @@ import fr.univamu.graph.generators.Grid;
 import fr.univamu.graph.generators.Lollipop;
 import fr.univamu.graph.search.Search;
 import fr.univamu.helpers.Point;
+import fr.univamu.randomtree.Prim;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -25,23 +27,25 @@ public class Controller implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    // drawErdosReniy();
+    drawErdosReniy();
     // drawGrid();
     // drawLollipop();
-    drawComplete();
+    //drawComplete();
   }
 
   private void drawErdosReniy() {
     EmbeddedGraph graph = new ErdosRenyi(30,0.3);
     Search search = Search.breadthFirstSearch(graph.graph());
     search.searchFrom(0);
-    Set<Edge> edges = search.edges();
+    //Set<Edge> edges = search.edges();
+    final Prim prim = new Prim(graph.graph());
+    Set<Edge> edges = prim.getRandomTree();
     Embedding layout =
         graph.layout().scale(300).translate(Point.cartesian(500,400));
     drawGraphAndSubGraph(graph, edges, layout);
   }
   private void drawComplete() {
-    EmbeddedGraph graph = new Complete(50);
+    EmbeddedGraph graph = new Complete(10);
     Search search = Search.depthFirstSearch(graph.graph());
     search.searchFrom(0);
     Set<Edge> edges = search.edges();
